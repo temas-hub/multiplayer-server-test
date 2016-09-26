@@ -6,5 +6,5 @@ Simple test which creates Multiplayer game server, registers new clients and res
 - Use fixed version of Nardon multiplayer server (see https://github.com/temas-hub/java-game-server)
 
 Main classes:
-Server - GameServer.kt
-Client - Client.kt
+- Server - GameServer.kt
+- Client - Client.kt
