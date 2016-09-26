@@ -1,0 +1,11 @@
+syntax = "proto3";
+package com.temas.aimaster;
+
+message UpdateResponse {
+    TargetInfo target = 1;
+}
+
+message TargetInfo {
+    int32 x = 1;
+    int32 y = 2;
+}

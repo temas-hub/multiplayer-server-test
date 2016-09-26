@@ -1,4 +1,4 @@
-package com.temas.gameserver
+package com.temas.gameserver.aimmaster
 
 import io.nadron.app.Game
 import io.nadron.app.GameRoom
@@ -20,8 +20,8 @@ import java.util.*
  */
 
 @Configuration
-@ImportResource("classpath:/beans/beans.xml")
-class SpringConfig {
+@ImportResource("classpath:beans.xml")
+open class SpringConfig {
     @Autowired
     @Qualifier("messageBufferProtocol")
     private val messageBufferProtocol: Protocol? = null
@@ -30,15 +30,16 @@ class SpringConfig {
         return SimpleGame(1, "aimmaster")
     }
 
-    @Bean(name = "gameRoom")
-    fun gameRoom() : GameRoom {
+    @Bean(name = arrayOf("gameRoom"))
+    open fun gameRoom() : GameRoom {
         val sessionBuilder = GameRoomSession.GameRoomSessionBuilder()
-        sessionBuilder.parentGame(game()).gameRoomName("test room").protocol(messageBufferProtocol)
-        return com.temas.gameserver.GameRoom(sessionBuilder)
+        sessionBuilder.parentGame(game()).gameRoomName("defaultRoom").protocol(messageBufferProtocol)
+        return GameRoom(sessionBuilder)
     }
 
-    @Bean(name = "lookupService")
-    fun lookupService(): LookupService {
+
+    @Bean(name = arrayOf("lookupService"))
+    open fun lookupService(): LookupService {
         val refKeyGameRoomMap = HashMap<String, GameRoom>()
         val gameRoom = gameRoom()
         refKeyGameRoomMap.put(gameRoom.gameRoomName, gameRoom)
