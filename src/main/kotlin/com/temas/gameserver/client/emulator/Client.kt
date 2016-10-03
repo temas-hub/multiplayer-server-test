@@ -30,14 +30,16 @@ private val taskExecutor = Executors.newSingleThreadScheduledExecutor()
 class Client {
 
     private class InBoundHandler(session: Session) : AbstractSessionEventHandler(session) {
+        private var inPacketCount = 0
 
         private val prototype: MessageLite = WorldStateProto.UpdateResponse.getDefaultInstance()
 
         override fun onDataIn(event: Event) {
+            inPacketCount++
             val buffer = event.source as NettyMessageBuffer
             val response = buffer.readObject { convertToProto(it) } as WorldStateProto.UpdateResponse
             val worldState = response.target
-            println("Received state x= ${worldState.x}, y=${worldState.y}")
+            println("Received state x= ${worldState.x}, y=${worldState.y} cnt=$inPacketCount")
         }
 
         fun convertToProto(msg: ByteBuf): MessageLite {
