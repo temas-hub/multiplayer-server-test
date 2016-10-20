@@ -1,5 +1,5 @@
 ext {
-    kotlin_version = '1.0.3'
+    kotlin_version = '1.0.4'
     protobufVersion = '3.0.0-alpha-3'
     protobufPluginVersion = '0.8.0'
 }
@@ -31,9 +31,9 @@ sourceSets {
 
 buildscript {
     ext {
-        kotlin_version = '1.0.3'
+        kotlin_version = '1.0.4'
         protobufVersion = '3.0.0-alpha-3'
-        protobufPluginVersion = '0.7.3'
+        protobufPluginVersion = '0.8.0'
     }
 
     repositories {

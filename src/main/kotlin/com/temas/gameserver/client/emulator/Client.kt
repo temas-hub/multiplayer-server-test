@@ -4,15 +4,12 @@ import com.google.protobuf.MessageLite
 import com.temas.aimaster.WorldStateProto
 import io.nadron.client.app.Session
 import io.nadron.client.app.impl.SessionFactory
-import io.nadron.client.communication.DeliveryGuaranty.*
 import io.nadron.client.communication.NettyMessageBuffer
 import io.nadron.client.event.Event
-import io.nadron.client.event.Events
 import io.nadron.client.event.impl.AbstractSessionEventHandler
 import io.nadron.client.util.LoginHelper
 import io.netty.buffer.ByteBuf
 import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
 
 /**
  * @author Artem Zhdanov <azhdanov@griddynamics.com>
@@ -72,18 +69,9 @@ class Client {
 
         val loginHelper = builder.build()
         val sessionFactory = SessionFactory(loginHelper)
-        val session = sessionFactory.createAndConnectSession()
-
-        val task = Runnable {
-            val messageBuffer = NettyMessageBuffer()
-            messageBuffer.writeInt(1)
-            messageBuffer.writeInt(2)
-            val event = Events.networkEvent(messageBuffer, DeliveryGuarantyOptions.FAST)
-            session.onEvent(event)
-        }
-
-        taskExecutor.scheduleAtFixedRate(task, 2000, 200, TimeUnit.MILLISECONDS)
+        val session = sessionFactory.createSession()
         val handler = InBoundHandler(session)
         session.addHandler(handler)
+        sessionFactory.connectSession(session)
     }
 }
